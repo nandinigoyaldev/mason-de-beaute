@@ -520,46 +520,36 @@ document.addEventListener("DOMContentLoaded", () => {
     // DYNAMIC TESTIMONIAL REVIEWS SYSTEM
     // ==========================================
 
-    const reviewsGrid = document.getElementById("testimonials-grid");
+    const reviewsTrack = document.getElementById("testimonials-track");
     const writeReviewBtn = document.getElementById("open-review-modal-btn");
     const reviewModal = document.getElementById("review-modal");
     const reviewForm = document.getElementById("review-form");
     const closeReviewModalSpan = document.querySelector(".close-review-modal");
 
-    // Fetch and render reviews
+    // Fetch and render reviews inside infinite marquee track
     async function loadReviews() {
-        if (!reviewsGrid) return;
-        reviewsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">Loading reviews...</p>';
-
-        const toggleReviewsBtn = document.getElementById("toggle-all-reviews-btn");
-        if (toggleReviewsBtn) toggleReviewsBtn.style.display = "none";
+        if (!reviewsTrack) return;
+        reviewsTrack.innerHTML = '<p style="text-align: center; color: #888; width: 100%;">Loading reviews...</p>';
 
         try {
             const res = await fetch("/api/reviews");
             const reviews = await res.json();
             
-            reviewsGrid.innerHTML = "";
+            reviewsTrack.innerHTML = "";
 
             if (reviews.length === 0) {
-                reviewsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888; font-style: italic; padding: 2rem;">No reviews yet. Be the first to share your experience!</p>';
+                reviewsTrack.innerHTML = '<p style="text-align: center; color: #888; font-style: italic; padding: 2rem; width: 100%;">No reviews yet. Be the first to share your experience!</p>';
                 return;
             }
 
-            reviews.forEach((review, idx) => {
+            // Function to create card HTML
+            const createCardElement = (review) => {
                 const parts = review.name.split(" ");
                 const initials = parts.map(p => p[0]).join("").toUpperCase().substring(0, 2) || "P";
-                
                 const starString = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
 
                 const card = document.createElement("div");
                 card.className = "testimonial-card";
-                
-                // Hide reviews after the first 3
-                if (idx >= 3) {
-                    card.classList.add("hidden-review");
-                    card.style.display = "none";
-                }
-
                 card.innerHTML = `
                     <div class="rating">${starString}</div>
                     <blockquote>
@@ -573,29 +563,24 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     </div>
                 `;
-                reviewsGrid.appendChild(card);
+                return card;
+            };
+
+            // Render all reviews in the track
+            reviews.forEach(review => {
+                reviewsTrack.appendChild(createCardElement(review));
             });
 
-            // Show expand button if there are more than 3 reviews
-            if (reviews.length > 3 && toggleReviewsBtn) {
-                toggleReviewsBtn.style.display = "inline-block";
+            // Clone elements to create a seamless infinite scrolling loop if there are at least 3 reviews
+            if (reviews.length >= 3) {
+                reviews.forEach(review => {
+                    reviewsTrack.appendChild(createCardElement(review));
+                });
             }
         } catch (err) {
             console.error("Failed to load reviews catalog:", err);
-            reviewsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #ff5555; font-style: italic;">Failed to load reviews.</p>';
+            reviewsTrack.innerHTML = '<p style="text-align: center; color: #ff5555; font-style: italic; width: 100%;">Failed to load reviews.</p>';
         }
-    }
-
-    // Toggle reviews expansion listener
-    const toggleReviewsBtn = document.getElementById("toggle-all-reviews-btn");
-    if (toggleReviewsBtn) {
-        toggleReviewsBtn.addEventListener("click", () => {
-            const hiddenReviews = document.querySelectorAll(".hidden-review");
-            hiddenReviews.forEach(el => {
-                el.style.display = "block";
-            });
-            toggleReviewsBtn.style.display = "none";
-        });
     }
 
     // Modal triggers for reviews

@@ -2428,3 +2428,46 @@ section {
 #scroll-top-btn:hover .arrow {
     transform: translateY(-2px);
 }
+
+/* ==================================================
+   INFINITE TESTIMONIALS MARQUEE TRACK
+   ================================================== */
+.testimonials-track-container {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    padding: 2.5rem 0;
+    display: flex;
+    mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+}
+
+.testimonials-track {
+    display: flex;
+    gap: 2.5rem;
+    width: max-content;
+    animation: scrollTrack 40s linear infinite;
+}
+
+.testimonials-track-container:hover .testimonials-track {
+    animation-play-state: paused;
+}
+
+@keyframes scrollTrack {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.testimonials-track .testimonial-card {
+    width: 340px;
+    flex-shrink: 0;
+    margin: 0;
+    background: rgba(25, 12, 34, 0.6);
+    border: 1px solid var(--border-glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
