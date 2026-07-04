@@ -675,9 +675,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Pre-configured before/after works for stylists (using assets already in the repo)
     const portfolios = {
         alice: {
-            title: "Alice's Work: Premium Hair Nourishment",
-            before: "assets/images/hair3.jpeg",
-            after: "assets/images/hair1.jpg"
+            title: "Alice's Work: Signature Blowout & Styling",
+            before: "assets/images/alice_before.png",
+            after: "assets/images/alice_after.png"
         },
         michael: {
             title: "Michael's Work: Precision Color Highlights",
