@@ -2532,3 +2532,13 @@ section {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
+
+.stylist-bio {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #c5c5c5;
+    margin-top: 1rem;
+    margin-bottom: 0.8rem;
+    text-align: center;
+    font-family: var(--font-sans);
+}

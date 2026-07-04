@@ -939,24 +939,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 const card = document.createElement("div");
                 card.className = "team-card";
                 
-                // Fallback bio based on specialty
-                const bio = stylist.specialty.toLowerCase().includes("color") 
-                    ? "Specialist in organic hand-painted balayage, vivid pastels, and premium damage-free highlights."
-                    : "Expertise in precision geometric cuts, luxury blowouts, and custom texturing treatments.";
+                // Elegant, high-fashion expanded biography fallbacks
+                let bio = "";
+                if (stylist.specialty.toLowerCase().includes("color")) {
+                    bio = "Dedicated to the fine art of hair coloring. Michael specializes in custom hand-painted balayage, multi-dimensional highlighting, structural gloss glazing, and color correction designed to maintain the hair's natural integrity.";
+                } else if (stylist.specialty.toLowerCase().includes("stylist") || stylist.specialty.toLowerCase().includes("cut")) {
+                    bio = "A master of shape, weight, and movement. Alice brings extensive training in precision geometric cutting, dry-shaping texturization, signature editorial blowouts, and luxury styling tailored to express each client's unique profile.";
+                } else {
+                    bio = "An accomplished salon artist committed to custom styling consultations, luxury restorative hair treatments, couture braiding, and bespoke care routines that restore lasting shine, volume, and texture.";
+                }
                 
                 card.innerHTML = `
                     <div class="team-image-wrapper">
                         <img src="${stylist.image_url}" alt="${stylist.name} - ${stylist.specialty}" loading="lazy">
                     </div>
-                    <div class="team-info">
+                    <div class="team-details">
                         <h3>${stylist.name}</h3>
-                        <p class="specialty">${stylist.specialty}</p>
+                        <p class="team-specialty">${stylist.specialty}</p>
                         <p class="stylist-bio">${bio}</p>
-                        <div class="team-social">
+                        <div class="team-socials">
                             <a href="#" class="team-social-btn" aria-label="Instagram">Instagram</a>
                             <a href="#" class="team-social-btn" aria-label="Pinterest">Pinterest</a>
                         </div>
-                        <button type="button" class="view-portfolio-btn" data-stylist="${stylist.name.toLowerCase()}">View Transformations</button>
+                        <button type="button" class="view-portfolio-btn" data-stylist="${stylist.name.toLowerCase()}" style="margin-top: 1.2rem;">View Transformations</button>
                     </div>
                 `;
                 teamGrid.appendChild(card);
