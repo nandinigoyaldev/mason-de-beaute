@@ -778,6 +778,134 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // ==========================================
+    // MAISON CONCIERGE CHATBOT WIDGET LOGIC
+    // ==========================================
+    const chatbotTriggerBtn = document.getElementById("chatbot-trigger-btn");
+    const chatbotWindow = document.getElementById("chatbot-window");
+    const chatbotMessagesBox = document.getElementById("chatbot-messages-box");
+    const chatbotInputForm = document.getElementById("chatbot-input-form");
+    const chatbotInputField = document.getElementById("chatbot-input-field");
+    const quickReplyChips = document.querySelectorAll(".quick-chip-btn");
+
+    if (chatbotTriggerBtn && chatbotWindow) {
+        // Toggle chat window open/close
+        chatbotTriggerBtn.addEventListener("click", () => {
+            chatbotTriggerBtn.classList.toggle("active");
+            chatbotWindow.classList.toggle("show");
+            
+            // Auto scroll to latest message when opened
+            if (chatbotWindow.classList.contains("show") && chatbotMessagesBox) {
+                chatbotMessagesBox.scrollTop = chatbotMessagesBox.scrollHeight;
+            }
+        });
+
+        // Helper to append message bubbles
+        function appendChatMessage(sender, text) {
+            if (!chatbotMessagesBox) return;
+            const msg = document.createElement("div");
+            msg.className = `chat-message ${sender}`;
+            msg.innerHTML = text;
+            chatbotMessagesBox.appendChild(msg);
+            chatbotMessagesBox.scrollTop = chatbotMessagesBox.scrollHeight;
+        }
+
+        // Typing indicator helpers
+        let typingIndicatorEl = null;
+
+        function showTypingIndicator() {
+            if (!chatbotMessagesBox || typingIndicatorEl) return;
+            typingIndicatorEl = document.createElement("div");
+            typingIndicatorEl.className = "chat-message bot";
+            typingIndicatorEl.innerHTML = `
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+            chatbotMessagesBox.appendChild(typingIndicatorEl);
+            chatbotMessagesBox.scrollTop = chatbotMessagesBox.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            if (typingIndicatorEl) {
+                typingIndicatorEl.remove();
+                typingIndicatorEl = null;
+            }
+        }
+
+        // Keyword responses engine
+        function getBotResponse(input) {
+            const text = input.toLowerCase().trim();
+            
+            if (text.includes("hour") || text.includes("time") || text.includes("open") || text.includes("location") || text.includes("address") || text.includes("where")) {
+                return `Maison de Beauté is located in the heart of the luxury shopping district at <strong>75 Rue de Paris, NY</strong>.<br><br>🕒 <strong>Hours of Operation:</strong><br>• Monday - Friday: 9:00 AM - 8:00 PM<br>• Saturday: 9:00 AM - 6:00 PM<br>• Sunday: Closed`;
+            }
+            
+            if (text.includes("stylist") || text.includes("staff") || text.includes("alice") || text.includes("michael") || text.includes("who")) {
+                return `Our master styling team includes:<br><br>💇 <strong>Alice (Senior Stylist):</strong> Specialized in precision cuts, luxury blowouts, and damage-free texture treatments.<br><br>🎨 <strong>Michael (Color Specialist):</strong> Specialized in custom balayage, hand-painted gradients, and premium highlights.`;
+            }
+            
+            if (text.includes("promo") || text.includes("discount") || text.includes("code") || text.includes("coupon") || text.includes("offer")) {
+                return `✨ <strong>Active Coupon Promos:</strong><br><br>• <strong>WELCOME10</strong>: Save <strong>10% off</strong> base pricing for your first booking!<br>• <strong>GOLD15</strong>: Save <strong>15% off</strong> any base services.`;
+            }
+            
+            if (text.includes("book") || text.includes("reserve") || text.includes("appointment") || text.includes("schedule") || text.includes("how")) {
+                return `To book your appointment, scroll up to our <strong>Reservations Wizard</strong>! Select your service, choose your stylist/date, and download your printable bill receipt invoice instantly.`;
+            }
+            
+            if (text.includes("price") || text.includes("cost") || text.includes("how much") || text.includes("service")) {
+                return `Our styling services start at:<br>• <strong>Hair Styling:</strong> from $50<br>• <strong>Hair Coloring:</strong> from $120<br>• <strong>Hair Treatment:</strong> from $80<br><br>Select upgrades on our reservations card to see your real-time invoice totals!`;
+            }
+            
+            if (text.includes("hello") || text.includes("hi") || text.includes("hey") || text.includes("greet")) {
+                return `Hello! How can I help you customize your styling experience today?`;
+            }
+
+            if (text.includes("thank") || text.includes("cool") || text.includes("perfect") || text.includes("awesome")) {
+                return `You are very welcome! We look forward to seeing you at Maison de Beauté.`;
+            }
+
+            return `I'm sorry, I didn't quite catch that. Try asking about <strong>hours</strong>, <strong>stylists</strong>, <strong>promos</strong>, or <strong>how to book</strong>!`;
+        }
+
+        // Handle typing submission and delay triggers
+        function handleUserMessage(queryText) {
+            if (!queryText) return;
+            appendChatMessage("user", queryText);
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                removeTypingIndicator();
+                const reply = getBotResponse(queryText);
+                appendChatMessage("bot", reply);
+            }, 700 + Math.random() * 500);
+        }
+
+        // Form text submission
+        if (chatbotInputForm && chatbotInputField) {
+            chatbotInputForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const query = chatbotInputField.value.trim();
+                if (!query) return;
+                chatbotInputField.value = "";
+                handleUserMessage(query);
+            });
+        }
+
+        // Quick Reply FAQ Chips click listener
+        quickReplyChips.forEach(chip => {
+            chip.addEventListener("click", () => {
+                const query = chip.getAttribute("data-query");
+                let label = chip.textContent;
+                
+                // Trigger appropriate bot workflow based on chips
+                handleUserMessage(label);
+            });
+        });
+    }
+
     // Run Initial Load
     loadFormCatalogs();
     loadReviews(); // Load database testimonials on load

@@ -77,7 +77,7 @@
             <div class="about-grid">
                 <div class="about-item">
                     <div class="about-image-wrapper">
-                        <img src="assets/images/hair1.jpg" alt="Professional Hair Styling Service">
+                        <img src="assets/images/hair1.jpg" alt="Professional Hair Styling Service" loading="lazy">
                         <div class="shine-sweep"></div>
                     </div>
                     <div class="about-content">
@@ -90,7 +90,7 @@
                 </div>
                 <div class="about-item">
                     <div class="about-image-wrapper">
-                        <img src="assets/images/hair2.jpeg" alt="Expert Hair Coloring">
+                        <img src="assets/images/hair2.jpeg" alt="Expert Hair Coloring" loading="lazy">
                         <div class="shine-sweep"></div>
                     </div>
                     <div class="about-content">
@@ -103,7 +103,7 @@
                 </div>
                 <div class="about-item">
                     <div class="about-image-wrapper">
-                        <img src="assets/images/hair3.jpeg" alt="Hair Treatment for Healthy Hair">
+                        <img src="assets/images/hair3.jpeg" alt="Hair Treatment for Healthy Hair" loading="lazy">
                         <div class="shine-sweep"></div>
                     </div>
                     <div class="about-content">
@@ -140,18 +140,16 @@
                 <h2>Meet Our Master Stylists</h2>
                 <p class="section-subtitle">Industry-leading artists dedicated to delivering customized hair transformations.</p>
             </div>
-            
-            <div class="team-grid">
+                   <div class="team-grid">
                 <div class="team-card">
                     <div class="team-image-wrapper">
-                        <img src="assets/images/stylist.jpeg" alt="Alice - Senior Hair Stylist">
-                        <span class="specialist-badge">Senior Stylist</span>
-                        <div class="shine-sweep"></div>
+                        <img src="assets/images/stylist.jpeg" alt="Alice - Senior Hair Stylist" loading="lazy">
                     </div>
-                    <div class="team-details">
+                    <div class="team-info">
                         <h3>Alice</h3>
-                        <p class="team-specialty">Precision Cuts & Texturizing</p>
-                        <div class="team-socials">
+                        <p class="specialty">Senior Hair Stylist</p>
+                        <p class="stylist-bio">Expertise in precision geometric cuts, luxury blowouts, and custom texturing treatments.</p>
+                        <div class="team-social">
                             <a href="#" class="team-social-btn" aria-label="Instagram">Instagram</a>
                             <a href="#" class="team-social-btn" aria-label="Pinterest">Pinterest</a>
                         </div>
@@ -160,21 +158,20 @@
                 </div>
                 <div class="team-card">
                     <div class="team-image-wrapper">
-                        <img src="assets/images/male.jpeg" alt="Michael - Expert Hair Colorist">
-                        <span class="specialist-badge">Color Specialist</span>
-                        <div class="shine-sweep"></div>
+                        <img src="assets/images/male.jpeg" alt="Michael - Expert Hair Colorist" loading="lazy">
                     </div>
-                    <div class="team-details">
+                    <div class="team-info">
                         <h3>Michael</h3>
-                        <p class="team-specialty">Highlights & Custom Balayage</p>
-                        <div class="team-socials">
+                        <p class="specialty">Color Specialist</p>
+                        <p class="stylist-bio">Specialist in organic hand-painted balayage, vivid pastels, and premium damage-free highlights.</p>
+                        <div class="team-social">
                             <a href="#" class="team-social-btn" aria-label="Instagram">Instagram</a>
                             <a href="#" class="team-social-btn" aria-label="Pinterest">Pinterest</a>
                         </div>
                         <button type="button" class="view-portfolio-btn" data-stylist="michael">View Transformations</button>
                     </div>
                 </div>
-            </div>
+            </div></div>
         </section>
 
         <!-- Booking Section -->
@@ -472,17 +469,56 @@
                 <div class="comparison-slider-container">
                     <div class="comparison-slider">
                         <div class="before-image">
-                            <img id="slider-before-img" src="assets/images/hair2.jpeg" alt="Hair styling before transformation">
+                            <img id="slider-before-img" src="assets/images/hair2.jpeg" alt="Hair styling before transformation" loading="lazy">
                             <span class="label-badge before">BEFORE</span>
                         </div>
                         <div class="after-image">
-                            <img id="slider-after-img" src="assets/images/hair1.jpg" alt="Hair styling after transformation">
+                            <img id="slider-after-img" src="assets/images/hair1.jpg" alt="Hair styling after transformation" loading="lazy">
                             <span class="label-badge after">AFTER</span>
                         </div>
                         <input type="range" min="0" max="100" value="50" class="slider-range-divider" id="slider-divider-range" aria-label="Drag to view before and after">
                         <div class="slider-handle-bar"></div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Floating Concierge Chatbot Widget -->
+        <div id="chatbot-widget-container">
+            <!-- Chat Trigger Button -->
+            <button id="chatbot-trigger-btn" aria-label="Open Salon Concierge Assistant" title="Maison Concierge">
+                <span class="chat-icon">💬</span>
+                <span class="chat-close-icon">&times;</span>
+            </button>
+            
+            <!-- Chat Window -->
+            <div id="chatbot-window">
+                <div class="chatbot-header">
+                    <div class="chatbot-avatar">MB</div>
+                    <div class="chatbot-title-info">
+                        <h4>Maison Concierge</h4>
+                        <span class="chatbot-status">Online Assistant</span>
+                    </div>
+                </div>
+                
+                <div class="chatbot-messages" id="chatbot-messages-box">
+                    <div class="chat-message bot">
+                        <p>Welcome to <strong>Maison de Beauté</strong>! I am your virtual salon concierge. How may I assist you today?</p>
+                    </div>
+                </div>
+                
+                <!-- Quick Reply FAQ Chips -->
+                <div class="chatbot-quick-chips">
+                    <button class="quick-chip-btn" data-query="hours">🕒 Hours & Location</button>
+                    <button class="quick-chip-btn" data-query="stylists">💇 Our Stylists</button>
+                    <button class="quick-chip-btn" data-query="promos">✨ Active Promos</button>
+                    <button class="quick-chip-btn" data-query="book">📅 How to Book</button>
+                </div>
+                
+                <form id="chatbot-input-form">
+                    <input type="text" id="chatbot-input-field" placeholder="Ask a question..." required autocomplete="off">
+                    <button type="submit" id="chatbot-send-btn" aria-label="Send query">➔</button>
+                </form>
             </div>
         </div>
 
