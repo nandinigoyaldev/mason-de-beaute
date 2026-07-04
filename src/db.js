@@ -2,8 +2,25 @@ const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcryptjs');
 const path = require('path');
 
+const fs = require('fs');
+
 // Store the SQLite database file in a writable directory
-const dbPath = process.env.DATABASE_PATH || (process.env.RENDER ? '/tmp/bookings.db' : path.join(__dirname, 'bookings.db'));
+let dbPath = process.env.DATABASE_PATH;
+if (dbPath) {
+    try {
+        const dir = path.dirname(dbPath);
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+    } catch (err) {
+        console.warn(`Database: Custom path directory ${dbPath} is not writable:`, err.message);
+        console.warn(`Database: Falling back to temporary directory.`);
+        dbPath = '/tmp/bookings.db';
+    }
+} else {
+    dbPath = process.env.RENDER ? '/tmp/bookings.db' : path.join(__dirname, 'bookings.db');
+}
+
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Error connecting to SQLite database:', err.message);
