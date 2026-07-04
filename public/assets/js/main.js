@@ -681,8 +681,8 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         michael: {
             title: "Michael's Work: Precision Color Highlights",
-            before: "assets/images/hair2.jpeg",
-            after: "assets/images/hair1.jpg"
+            before: "assets/images/transformation_before.png",
+            after: "assets/images/transformation_after.png"
         }
     };
 
